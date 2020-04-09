@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import moment from "moment";
 import {
   LineChart,
@@ -10,6 +10,12 @@ import {
 } from "recharts";
 
 const Chart = ({ sparklineData }) => {
+  const [lineColor, setLineColor] = useState("blue");
+
+  useEffect(() => {
+    setLineColor(document.body.classList.contains("dark-mode") ? "red" : "blue")
+  }, [])
+
   const formattedData = sparklineData
     .map((price, idx) => {
       if (idx % 6 === 0) {
@@ -28,7 +34,7 @@ const Chart = ({ sparklineData }) => {
 
   return (
     <LineChart width={1100} height={300} data={formattedData}>
-      <Line type="monotone" dataKey="value" stroke="#8884d8" />
+      <Line type="monotone" dataKey="value" stroke={lineColor} />
       <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
       <XAxis dataKey="date" interval={3} />
       <YAxis />
